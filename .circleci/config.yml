@@ -40,8 +40,13 @@ jobs:
       # run tests!
       - run: mvn integration-test
 
-  deployment:
-    staging:
-      branch: master
-      heroku:
-        appname: peaceful-oasis-58691
+      - run:
+          name: Setup Heroku
+          command: |
+            chmod +x .circleci/setup-heroku.sh
+            .circleci/setup-heroku.sh
+      - run:
+          name: Deploy to Heroku
+          command: |
+            cd app/
+            git push heroku master
